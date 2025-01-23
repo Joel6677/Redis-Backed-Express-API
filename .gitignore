@@ -1,0 +1,65 @@
+# Dependency directories
+node_modules/
+dist/
+build/
+target/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+*.bak
+*.tmp
+
+# Coverage reports
+coverage/
+.nyc_output/
+*.lcov
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Generated files
+*.iml
+*.class
+*.project
+*.jar
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Others
+*.out
+*.log
+*.cache
+*.tmp
