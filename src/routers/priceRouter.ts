@@ -1,6 +1,8 @@
 import express from 'express';
-import priceController from './controllers/priceController';
+import { getDeliveryOrderPrice } from '../controllers/priceController';
 
-const router = express.Router();
+const priceRouter = express.Router();
 
-router.get('/api/v1/delivery-order-price/:venue_slug/:cart_value/:user_lat/:user_lon', priceController.getDeliveryOrderPrice);
+priceRouter.get('/api/v1/delivery-order-price/:venue_slug/:cart_value/:user_lat/:user_lon', getDeliveryOrderPrice);
+
+export default priceRouter;
