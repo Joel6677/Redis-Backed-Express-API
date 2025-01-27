@@ -1,15 +1,14 @@
 import { z } from 'zod';
 import { QueryParams } from '../types';
 
-
 export const QueryParamsSchema = z.object({
-	venueSlug: z.string(),
-	cartValue: z.number().min(0),
-	userLat: z.number().min(-90).max(90),
-	userLong: z.number().min(-180).max(180),
+	venue_slug: z.string(),
+	cart_value: z.string(),
+	user_lat: z.string(),
+	user_lon: z.string(),
 });
 
-
-export const parseQueryParams = (object: Record<string, string | undefined>): QueryParams => {
+export const parseQueryParams = (object: unknown): QueryParams => {
 	return QueryParamsSchema.parse(object);
 };
+

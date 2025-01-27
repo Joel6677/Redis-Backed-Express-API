@@ -19,8 +19,10 @@ export interface VenueLocation {
 }
 
 export interface StaticData {
-	venue_raw: {
-		location: VenueLocation;
+	data: {
+		venue_raw: {
+			location: VenueLocation;
+		}
 	};
 }
 
@@ -38,12 +40,14 @@ export interface DeliveryPricing {
 }
 
 export interface DynamicData {
-	venue_raw: {
-		delivery_specs: {
-			order_minimum_no_surcharge: number;
-			delivery_pricing: DeliveryPricing;
-		};
-	};
+	data: {
+		venue_raw: {
+			delivery_specs: {
+				order_minimum_no_surcharge: number;
+				delivery_pricing: DeliveryPricing;
+			};
+		}
+	}
 }
 
 

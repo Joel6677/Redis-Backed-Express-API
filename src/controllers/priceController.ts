@@ -4,46 +4,45 @@ import { calculateTotalPrice } from '../utils/calculateTotalPrice';
 import calculateDistanceFee from '../utils/calculateDistanceFee';
 import calculateDistance from '../utils/calculateDistance';
 import { calculateSmallOrderSurcharge } from '../utils/calculateSmallOrderSurcharge';
-import { QueryParams, StaticData, DynamicData } from '../types';
-import { parseQueryParams } from '../utils/parseQueryParams';
+import { StaticData, DynamicData, QueryParams } from '../types';
+//import { QueryParamsSchema } from '../utils/parseQueryParams';
 
 
-export const getDeliveryOrderPrice = async (req: Request, res: Response) => {
+export const getDeliveryOrderPrice = async (req: Request<unknown, unknown, unknown, QueryParams>, res: Response) => {
 
-	const queryParams = req.query as Record<string, string | undefined>;
-	const validatedParams = parseQueryParams(queryParams);
+	const { venue_slug, cart_value, user_lat, user_lon } = req.query;
 
-	const { venueSlug, cartValue, userLat, userLong }: QueryParams = validatedParams;
-
-	const staticData: StaticData = await axios.get(`https://consumer-api.development.dev.woltapi.com/home-assignment-api/v1/venues/${venueSlug}/static`);
-	const dynamicData: DynamicData = await axios.get(`https://consumer-api.development.dev.woltapi.com/home-assignment-api/v1/venues/${venueSlug}/dynamic`);
-
-	const venueCoordinates = staticData.venue_raw.location.coordinates;
-	const orderMinimumNoSurcharge = dynamicData.venue_raw.delivery_specs.order_minimum_no_surcharge;
-	const basePrice = dynamicData.venue_raw.delivery_specs.delivery_pricing.base_price;
-	const distanceRanges = dynamicData.venue_raw.delivery_specs.delivery_pricing.distance_ranges;
+	const staticData: StaticData = await axios.get(`https://consumer-api.development.dev.woltapi.com/home-assignment-api/v1/venues/${venue_slug}/static`);
+	const dynamicData: DynamicData = await axios.get(`https://consumer-api.development.dev.woltapi.com/home-assignment-api/v1/venues/${venue_slug}/dynamic`);
 
 
-	const venueLat = venueCoordinates[0];
-	const venueLong = venueCoordinates[1];
+	const venueCoordinates = staticData.data.venue_raw.location.coordinates;
+	const orderMinimumNoSurcharge = dynamicData.data.venue_raw.delivery_specs.order_minimum_no_surcharge;
+	const basePrice = dynamicData.data.venue_raw.delivery_specs.delivery_pricing.base_price;
+	const distanceRanges = dynamicData.data.venue_raw.delivery_specs.delivery_pricing.distance_ranges;
 
 
-	const smallOrderSurcharge = calculateSmallOrderSurcharge(orderMinimumNoSurcharge, cartValue);
-	const distance = calculateDistance(userLat, userLong, venueLat, venueLong);
+	const venueLat = venueCoordinates[1];
+	const venueLong = venueCoordinates[0];
+
+
+	const smallOrderSurcharge = calculateSmallOrderSurcharge(orderMinimumNoSurcharge, Number(cart_value));
+	const distance = calculateDistance(Number(user_lat), Number(user_lon), venueLat, venueLong);
 	const deliveryFee = calculateDistanceFee(distance, basePrice, distanceRanges);
 
-	const totalPrice = calculateTotalPrice(cartValue, smallOrderSurcharge, deliveryFee);
+	const totalPrice = calculateTotalPrice(Number(cart_value), smallOrderSurcharge, deliveryFee);
 
 
 	const price = {
 		"total_price": totalPrice,
 		"small_order_surcharge": smallOrderSurcharge,
-		"cart_value": cartValue,
+		"cart_value": cart_value,
 		"delivery": {
 			"fee": deliveryFee,
 			"distance": distance
 		}
 	};
+
 
 	res.status(200).json(price);
 };

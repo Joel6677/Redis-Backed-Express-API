@@ -24,7 +24,7 @@ const calculateDistance = (userLat: number, userLong: number, venueLat: number, 
 
 		const distance = Math.acos(Math.sin(userLatRad) * Math.sin(venueLatRad) + Math.cos(userLatRad) * Math.cos(venueLatRad) * Math.cos(venueLongRad - userLongRad)) * 6371 * 1000;
 
-		return distance;
+		return Math.round(distance);
 
 	} catch (error) {
 		if (error instanceof RangeError) {

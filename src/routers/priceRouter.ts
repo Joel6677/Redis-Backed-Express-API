@@ -1,8 +1,9 @@
 import express from 'express';
 import { getDeliveryOrderPrice } from '../controllers/priceController';
+import { QueryParamParser } from '../middlewares/QueryParamParser';
 
 const priceRouter = express.Router();
 
-priceRouter.get('/api/v1/delivery-order-price/:venue_slug/:cart_value/:user_lat/:user_lon', getDeliveryOrderPrice);
+priceRouter.get('/delivery-order-price', QueryParamParser, getDeliveryOrderPrice);
 
 export default priceRouter;
