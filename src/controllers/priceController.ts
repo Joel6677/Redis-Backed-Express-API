@@ -1,11 +1,11 @@
 import axios from 'axios';
+
 import { Request, Response } from 'express';
 import { calculateTotalPrice } from '../utils/calculateTotalPrice';
 import calculateDistanceFee from '../utils/calculateDistanceFee';
 import calculateDistance from '../utils/calculateDistance';
 import { calculateSmallOrderSurcharge } from '../utils/calculateSmallOrderSurcharge';
 import { StaticData, DynamicData, QueryParams } from '../types';
-//import { QueryParamsSchema } from '../utils/parseQueryParams';
 
 
 export const getDeliveryOrderPrice = async (req: Request<unknown, unknown, unknown, QueryParams>, res: Response) => {
@@ -42,6 +42,8 @@ export const getDeliveryOrderPrice = async (req: Request<unknown, unknown, unkno
 			"distance": distance
 		}
 	};
+
+	console.log('delivery order price:', price);
 
 
 	res.status(200).json(price);
