@@ -24,6 +24,7 @@ export interface StaticData {
 			location: VenueLocation;
 		}
 	};
+	status: number
 }
 
 export interface DistanceRange {
@@ -48,6 +49,7 @@ export interface DynamicData {
 			};
 		}
 	}
+	status: number
 }
 
 

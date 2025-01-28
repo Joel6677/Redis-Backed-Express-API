@@ -51,10 +51,9 @@ describe("calculateDistanceFee", () => {
 		const distanceFee = calculateDistanceFee(distance, basePrice, distanceRanges);
 		expect(distanceFee).toBe(exptectedFee);
 	});
-	it("should calculate distance fee with distance over max ", () => {
+	it("should throw Error if distance can't be calculated", () => {
 		const distance = 1000;
-		const distanceFee = calculateDistanceFee(distance, basePrice, distanceRanges);
-		expect(distanceFee).toBeNaN();
+		expect(() => calculateDistanceFee(distance, basePrice, distanceRanges)).toThrow();
 	});
 
 

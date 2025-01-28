@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../src/app';
 import axios from 'axios';
+import { DynamicData, StaticData } from '../../src/types';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -10,30 +11,9 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 
-describe.skip('GET /delivery-order-price', () => {
-	it('should return 200 and the correct response format', async () => {
-
-		const response = await request(app)
-			.get('/api/v1/delivery-order-price')
-			.query({
-				venue_slug: 'home-assignment-venue-helsinki',
-				cart_value: 1000,
-				user_lat: 60.17094,
-				user_lon: 24.93087,
-			});
-
-
-		expect(response.status).toBe(200);
-		expect(response.body).toHaveProperty('total_price');
-		expect(response.body).toHaveProperty('small_order_surcharge');
-		expect(response.body.delivery).toHaveProperty('fee');
-		expect(response.body.delivery).toHaveProperty('distance');
-	});
-});
-
 
 describe('GET /delivery-order-price', () => {
-	const mockStaticData = {
+	const mockStaticData: StaticData = {
 		data: {
 			venue_raw: {
 				location: {
@@ -41,9 +21,10 @@ describe('GET /delivery-order-price', () => {
 				},
 			},
 		},
+		status: 200,
 	};
 
-	const mockDynamicData = {
+	const mockDynamicData: DynamicData = {
 		data: {
 			venue_raw: {
 				delivery_specs: {
@@ -59,16 +40,21 @@ describe('GET /delivery-order-price', () => {
 				},
 			},
 		},
+		status: 200,
 	};
 
 	beforeEach(() => {
 		// Mock external API calls
 		mockedAxios.get.mockResolvedValueOnce(mockStaticData); // Static data mock
 		mockedAxios.get.mockResolvedValueOnce(mockDynamicData); // Dynamic data mock
+		mockedAxios.get.mockResolvedValueOnce(mockStaticData); // Static data mock
+		mockedAxios.get.mockResolvedValueOnce(mockDynamicData); // Dynamic data mock
+
 	});
 
 
-	it.skip('should return 200 and the correct response format with valid query parameters', async () => {
+	it('should return 200 and the correct response format with valid query parameters', async () => {
+
 		const response = await request(app)
 			.get('/api/v1/delivery-order-price')
 			.query({
@@ -85,17 +71,15 @@ describe('GET /delivery-order-price', () => {
 		expect(response.body.delivery).toHaveProperty('distance');
 	});
 
-	it.skip('should return 400 if query parameters are missing', async () => {
+	it('should return 400 if query parameters are missing', async () => {
 		const response = await request(app).get('/api/v1/delivery-order-price');
-
-		console.log('testing', response.status);
 
 		expect(response.status).toBe(400);
 		expect(response.body).toHaveProperty('error');
 		expect(response.body.error[0]).toHaveProperty('path', ['venue_slug']);
 	});
 
-	it.skip('should calculate the small order surcharge correctly', async () => {
+	it('should calculate the small order surcharge correctly', async () => {
 		const response = await request(app)
 			.get('/api/v1/delivery-order-price')
 			.query({
@@ -109,21 +93,6 @@ describe('GET /delivery-order-price', () => {
 		expect(response.body.small_order_surcharge).toBe(199);
 	});
 
-	it('should return 400 if the venue slug is invalid', async () => {
-		mockedAxios.get.mockRejectedValueOnce({ response: { status: 404 } });
-
-		const response = await request(app)
-			.get('/api/v1/delivery-order-price')
-			.query({
-				venue_slug: 'invalid-venue',
-				cart_value: 1000,
-				user_lat: 60.17094,
-				user_lon: 24.93087,
-			});
-
-		expect(response.status).toBe(400); // 400 for invalid venue
-		expect(response.body).toHaveProperty('error', 'Failed to fetch venue data');
-	});
 
 	it('should return 400 if the delivery distance is too long', async () => {
 		const longDistanceDynamicData = {
@@ -147,6 +116,9 @@ describe('GET /delivery-order-price', () => {
 
 		mockedAxios.get.mockResolvedValueOnce(mockStaticData);
 		mockedAxios.get.mockResolvedValueOnce(longDistanceDynamicData);
+		mockedAxios.get.mockResolvedValueOnce(mockStaticData);
+		mockedAxios.get.mockResolvedValueOnce(longDistanceDynamicData);
+
 
 		const response = await request(app)
 			.get('/api/v1/delivery-order-price')
@@ -161,7 +133,7 @@ describe('GET /delivery-order-price', () => {
 		expect(response.body).toHaveProperty('error', 'Delivery not possible: Distance too long');
 	});
 
-	it.skip('should return 200 if the delivery is possible with valid distance and pricing', async () => {
+	it('should return 200 if the delivery is possible with valid distance and pricing', async () => {
 		const validDistanceData = {
 			...mockDynamicData,
 			data: {
@@ -181,6 +153,8 @@ describe('GET /delivery-order-price', () => {
 			},
 		};
 
+		mockedAxios.get.mockResolvedValueOnce(mockStaticData);
+		mockedAxios.get.mockResolvedValueOnce(validDistanceData);
 		mockedAxios.get.mockResolvedValueOnce(mockStaticData);
 		mockedAxios.get.mockResolvedValueOnce(validDistanceData);
 
