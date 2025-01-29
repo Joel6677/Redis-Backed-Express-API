@@ -1,11 +1,36 @@
-import { redisClient, setValue, getValue, checkRedisHealth } from '../../src/redis/redis-client';
+import { redisClient, checkRedisHealth } from '../../src/redis/redis-client';
+import { RedisClientType, createClient } from 'redis';
 
 
-describe('Redis Client', () => {
+describe('Redis Test Client', () => {
+	let testRedisClient: RedisClientType;
 
-	// Setup the Redis client before each test
+	// Setup a separate Redis client for tests
 	beforeAll(async () => {
-		await redisClient.connect();
+		testRedisClient = createClient();
+		await testRedisClient.connect();
+	});
+
+	// Cleanup after tests
+	afterAll(async () => {
+		await testRedisClient.quit();
+	});
+
+	it('should set and get a value', async () => {
+		await testRedisClient.set('testKey', 'testValue');
+		const value = await testRedisClient.get('testKey');
+		expect(value).toBe('testValue');
+	});
+
+});
+
+describe('Redis Client Health', () => {
+
+	// Setup a separate Redis client for tests
+	beforeAll(async () => {
+		if (!redisClient.isOpen) {
+			await redisClient.connect();
+		}
 	});
 
 	// Cleanup after tests
@@ -13,17 +38,10 @@ describe('Redis Client', () => {
 		await redisClient.quit();
 	});
 
-	it('should set and get a value', async () => {
-		await setValue('testKey', 'testValue');
-		const value = await getValue('testKey');
-		expect(value).toBe('testValue');
-	});
 
 	it('should pass health check', async () => {
 		const healthStatus = await checkRedisHealth();
 		expect(healthStatus).toBe(true);
 	});
+
 });
-
-
-

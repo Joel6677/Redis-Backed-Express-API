@@ -19,6 +19,14 @@ export const getValue = (key: string): Promise<string | null> => {
 	return redisClient.get(key);
 };
 
+export const clearVenueCache = async (venue_slug: string): Promise<void> => {
+	if (!redisClient.isOpen) {
+		await redisClient.connect();
+	}
+	await redisClient.del(`venue:${venue_slug}`);
+	console.log(`Cache cleared for venue: ${venue_slug}`);
+};
+
 // Health check function
 export const checkRedisHealth = async (): Promise<boolean> => {
 	try {

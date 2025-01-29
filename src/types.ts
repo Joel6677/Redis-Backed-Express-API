@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { QueryParamsSchema } from './utils/parseQueryParams';
+import { Request } from 'express';
 
 export interface DistanceRanges {
 
@@ -50,6 +51,16 @@ export interface DynamicData {
 		}
 	}
 	status: number
+}
+
+
+export interface VenueData {
+	static: StaticData["data"]; // Only extract the `data` property
+	dynamic: DynamicData["data"]; // Only extract the `data` property
+}
+
+export interface CustomRequest extends Request {
+	venueData?: VenueData;
 }
 
 

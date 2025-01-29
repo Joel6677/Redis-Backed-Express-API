@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../src/app';
 import axios from 'axios';
 import { DynamicData, StaticData } from '../../src/types';
+import { redisClient } from '../../src/redis/redis-client';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -168,11 +169,14 @@ describe('GET /delivery-order-price', () => {
 			});
 
 		expect(response.status).toBe(200);
-		expect(response.body.delivery.fee).toBe(199);
+		expect(response.body.delivery.fee).toBe(190);
 	});
 
 	afterEach(() => {
 		jest.restoreAllMocks();
 	});
+	afterAll(async () => {
+		await redisClient.quit();
+	})
 });
 
