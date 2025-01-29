@@ -1,6 +1,6 @@
 import { calculateTotalPrice } from "../../src/utils/calculateTotalPrice";
 
-describe.skip("calculateTotalPrice", () => {
+describe("calculateTotalPrice", () => {
 
 
 	const smallOrderSurcharge = 5;

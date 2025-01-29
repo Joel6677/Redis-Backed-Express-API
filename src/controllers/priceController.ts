@@ -7,8 +7,8 @@ import calculateDistance from '../utils/calculateDistance';
 import { calculateSmallOrderSurcharge } from '../utils/calculateSmallOrderSurcharge';
 import { StaticData, DynamicData, QueryParams } from '../types';
 
-
 export const getDeliveryOrderPrice = async (req: Request<unknown, unknown, unknown, QueryParams>, res: Response, next: NextFunction) => {
+
 	try {
 		const { venue_slug, cart_value, user_lat, user_lon } = req.query;
 

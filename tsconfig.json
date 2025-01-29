@@ -1,14 +1,35 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "outDir": "./build/",
-    "module": "commonjs",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "target": "ESNext", // For top-level await and latest features
+    "module": "ESNext", // Use ES modules for imports/exports
+    "moduleResolution": "node", // Use Node.js module resolution
+    "strict": true, // Enable all strict type-checking options
+    "noUnusedLocals": true, // Report unused locals
+    "noUnusedParameters": true, // Report unused parameters
+    "noImplicitReturns": true, // Ensure all functions return a value
+    "noFallthroughCasesInSwitch": true, // Report fall-through in switch statements
+    "resolveJsonModule": true, // Allow importing JSON files as modules
+    "outDir": "./build", // Output compiled files to build directory
+    "skipLibCheck": true, // Skip library checks for faster builds
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing for filenames
+    "allowJs": true, // Allow JS files if needed
+    "lib": [
+      "esnext",
+      "dom"
+    ], // Add support for the latest JavaScript features
+    "isolatedModules": true, // Needed for ts-jest's isolated module testing
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "esm": true // Enable esm mode for ts-node
+  },
+  "include": [
+    "src/**/*.ts",
+    "redis",
+    "tests",
+    "jest.config.ts"
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules
+  ]
 }
