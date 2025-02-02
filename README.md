@@ -46,6 +46,7 @@ To build the project:
     ```
     npm run build
     ```
+    
 To start the built project:
    ```
    npm start
