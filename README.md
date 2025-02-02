@@ -36,28 +36,28 @@ This is a Node.js and TypeScript-based API built with Express and Redis. It incl
 
 ### Development Mode
 
-Run the app in development mode using Nodemon:
-    ```
+- Run the app in development mode using Nodemon:
+    ```sh
      npm run dev
     ```
 
 ### Build and start
-To build the project:
-    ```
+- To build the project:
+    ```sh
     npm run build
     ```
     
-To start the built project:
-   ```
+- To start the built project:
+   ```sh
    npm start
    ```
 ### Running tests
-Run tests:
-   ```
+- Run tests:
+   ```sh
     npm test
    ```
-Run tests in watch mode:
-   ```
+- Run tests in watch mode:
+   ```sh
     npm run test:watch
    ```
 
