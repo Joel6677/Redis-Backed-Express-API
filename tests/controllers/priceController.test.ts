@@ -177,6 +177,6 @@ describe('GET /delivery-order-price', () => {
 	});
 	afterAll(async () => {
 		await redisClient.quit();
-	})
+	});
 });
 
