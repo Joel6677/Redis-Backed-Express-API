@@ -1,4 +1,4 @@
-# Redis-Backed Express API
+# Redis-Backend Express API
 
 This is a Node.js and TypeScript-based API built with Express and Redis. It includes caching with Redis and follows best practices for TypeScript development.
 
@@ -23,8 +23,8 @@ This is a Node.js and TypeScript-based API built with Express and Redis. It incl
 
 1. Clone the repository:
    ```sh
-   git clone <your-repo-url>
-   cd <your-project-directory>
+   git clone https://github.com/Joel6677/Redis-Backed-Express-API.git
+   cd Redis-Backend-Express-API
 2. Install dependencies:
    ```sh
    npm install
@@ -37,23 +37,23 @@ This is a Node.js and TypeScript-based API built with Express and Redis. It incl
 ### Development Mode
 
 Run the app in development mode using Nodemon:
-    ```sh
+    ```
     npm run dev
 
 ### Build and start
 To build the project:
-    ```sh
+    ```
     npm run build
 To start the built project:
-    ```sh
+    ```
     npm start 
 
 ### Running tests
 Run tests:
-    ```sh
+    ```
     npm test
 Run tests in watch mode:
-    ```sh
+    ```
     npm run test:watch
 
 
