@@ -23,7 +23,7 @@ This is a Node.js and TypeScript-based API built with Express and Redis. It incl
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/Joel6677/Redis-Backed-Express-API.git
+   git clone https://github.com/Joel6677/Redis-Backend-Express-API.git
    cd Redis-Backend-Express-API
 2. Install dependencies:
    ```sh
